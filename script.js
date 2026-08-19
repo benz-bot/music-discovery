@@ -1,16 +1,25 @@
 const searchBox = document.querySelector(".search-box");
 const categoryButtons = document.querySelectorAll(".category-btn");
 const songCards = document.querySelectorAll(".song-card");
-
+const playlistSections = document.querySelectorAll(".playlist-section");
 let selectedCategory = "all";
 
 function filterSongs() {
   const searchText = searchBox.value.toLowerCase();
 
-  songCards.forEach((card) => {
+  songCards.forEach((card) => {playlistSections.forEach(section => {
+    const playlistCategory = section.dataset.playlistCategory;
+
+    if (selectedCategory === playlistCategory) {
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+});
     const songName = card.querySelector("h3").textContent.toLowerCase();
     const artistName = card.querySelector("p").textContent.toLowerCase();
     const category = card.dataset.category;
+  
 
     const matchesSearch =
       songName.includes(searchText) ||
