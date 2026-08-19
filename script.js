@@ -43,28 +43,4 @@ categoryButtons.forEach((button) => {
     filterSongs();
   });
 });
-const categoryButtons = document.querySelectorAll(".category-btn");
-const songCards = document.querySelectorAll(".song-card");
 
-categoryButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        const selectedCategory = button.dataset.category;
-
-        categoryButtons.forEach((btn) => {
-            btn.classList.remove("active");
-        });
-
-        button.classList.add("active");
-
-        songCards.forEach((song) => {
-            if (
-                selectedCategory === "all" ||
-                song.dataset.category === selectedCategory
-            ) {
-                song.style.display = "block";
-            } else {
-                song.style.display = "none";
-            }
-        });
-    });
-});
