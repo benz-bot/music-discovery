@@ -2,39 +2,44 @@ const searchBox = document.querySelector(".search-box");
 const categoryButtons = document.querySelectorAll(".category-btn");
 const songCards = document.querySelectorAll(".song-card");
 
-searchBox.addEventListener("input", function () {
+let selectedCategory = "all";
+
+function filterSongs() {
   const searchText = searchBox.value.toLowerCase();
 
-  songCards.forEach(function (card) {
+  songCards.forEach((card) => {
     const songName = card.querySelector("h3").textContent.toLowerCase();
     const artistName = card.querySelector("p").textContent.toLowerCase();
+    const category = card.dataset.category;
 
-    if (
+    const matchesSearch =
       songName.includes(searchText) ||
-      artistName.includes(searchText)
-    ) {
+      artistName.includes(searchText);
+
+    const matchesCategory =
+      selectedCategory === "all" ||
+      category === selectedCategory;
+
+    if (matchesSearch && matchesCategory) {
       card.style.display = "block";
     } else {
       card.style.display = "none";
     }
   });
-});
+}
 
-categoryButtons.forEach(function (button) {
-  button.addEventListener("click", function () {
-    const selectedCategory = button.textContent.toLowerCase();
+searchBox.addEventListener("input", filterSongs);
 
-    songCards.forEach(function (card) {
-      const cardCategory = card.dataset.category;
+categoryButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedCategory = button.textContent.toLowerCase();
 
-      if (
-        selectedCategory === "all" ||
-        cardCategory === selectedCategory
-      ) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
+    categoryButtons.forEach((btn) => {
+      btn.classList.remove("active");
     });
+
+    button.classList.add("active");
+
+    filterSongs();
   });
 });
